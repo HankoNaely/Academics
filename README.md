@@ -1,2 +1,1 @@
-# Academics
-Academics related stuff
+YOU JUST LOST THE GAME.
