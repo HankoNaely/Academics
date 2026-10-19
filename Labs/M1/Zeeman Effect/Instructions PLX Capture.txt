@@ -1,0 +1,33 @@
+Démarrer PlxCapture sur le bureau
+Choisir le mode planétaire
+
+Pour la sauvegarde d'image:
+Dans l'onglet fichiers choisir le répertoire de destination,
+Nom du fichier
+(note: il ajoutera automatiquement _0_g_0642_12b.fit à lafin)
+Format du fichier: AVI (RGB)
+Lecture: 12bit
+
+Pour capturer une image dans l'onglet capture 
+Durée capture: Images, Max 1
+Ne pas toucher à ROI&Binning (ne rien cocher, et ne pas toucher à 1024x768)
+=> Start
+
+Si l'image reste fixe, 
+et si "T 0 fps" en bas a gauche, la camera est plantée;
+redémarrer PlxCapture
+En cas de blocage persistant:
+débrancher l'usb de la camera
+fermer PlxCapture
+rebrancher l'usb de la camera
+redémarrer PlxCapture
+
+Ouvrir le .avi avec ImageJ (le glisser-déposer fonctionne)
+Pour une coupe:
+  Tracer une ligne (5e icone)
+  Analyze>Plot Profile
+  => possibilité de cliquer sur "Live", Save (TAB separated)
+
+Fin de manip:
+Fermer PLX avec la croix en haut à droite, 
+puis dans la fenetre de lancement, Sortie (image en bas à droite)
