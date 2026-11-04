@@ -1,0 +1,15 @@
+Author: Julien Morin <julien.morin@umontpellier.fr>
+Date: 15/10/2018
+
+Description
+-----------
+Sample FITS files from the FITS support office at NASA/GSFC https://fits.gsfc.nasa.gov/fits_samples.html and OHP M2 Astro/CCP projects.
+  * FITS support office:
+    * EUVEngc4151imgx: EUVE sky image and 2D spectra, contained in multiple image extensions, with associated binary table extensions. The 1st image extension has been rebinned by a factor of 4 to save disk space.
+    * NICMOSn4hk12010_mos: NICMOS null primary array plus 5 image extensions (270 x 263) containing the science, error, data quality, samples, and time images.
+    * WFPC2u5780205r_c0fx: WFPC II 800 x 800 x 4 primary array data cube containing the 4 CCD images, plus a table extension containing world coordinate parameters. This sample file has been trimmed to 200 x 200 x 4 pixels to save disk space.
+  * OHP M2 Astro/CCP projects
+    * IC434R-001: T120-OHP/Andor image of the IC434 (horsehead) nebula
+    * NGC7331-001R: T120-OHP/Andor image of the NGC7331 galaxy
+    * p06898: T152-OHP/AURELIE spectrum of the star kappa And
+    * Stephan_Quintet-010-r-180s: T80-OHP/SBIG6303E image of the Arp 319 (Stephan's Quintet) galaxy group
