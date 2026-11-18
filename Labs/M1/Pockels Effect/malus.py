@@ -1,35 +1,46 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
+'''
+angles_deg = np.array([96, 106, 116, 126, 136, 146, 156, 166, 176, 186, 196, 206, 216, 226, 236, 246, 256, 266, 276])
 
-# Angles de l'analyseur (°)
-angles_deg = np.array([0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180])
+intensites_exp = np.array([0.59, 19.32, 74.41, 166.75, 281.09, 396.69, 497.91, 639.91, 665.38, 692.22, 669.81, 590.22, 513.21, 388.06, 258.63, 146.13, 61.22, 12.56, 1.98])
+'''
+angles_deg = np.array([60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 50, 40, 30, 20, 10])
 
-# Tensions 
-intensites_exp = np.array([0.98, 0.91, 0.74, 0.49, 0.26, 0.07, 0.01, 0.08, 0.24, 0.51, 0.76, 0.93, 0.99])
+intensites_exp = np.array([6, 37.9, 176, 359, 502, 532, 435, 260, 94, 6.6, 95, 265, 434, 526, 497])
 
 
-# Malus 
 def loi_de_malus(theta_deg, I0, theta0_deg, I_offset):
-    theta_rad = np.radians(theta_deg - theta0_deg)
+    theta_rad = np.radians(2*(theta_deg - theta0_deg))
     return I0 * (np.cos(theta_rad) ** 2) + I_offset
 
 
-# FIT
-p0 = [np.max(intensites_exp), 0.0, np.min(intensites_exp)]  # Valeurs initiales
-popt, _ = curve_fit(loi_de_malus, angles_deg, intensites_exp, p0=p0)
+p0 = [np.max(intensites_exp), 0.0, np.min(intensites_exp)]
+popt, pcov = curve_fit(loi_de_malus, angles_deg, intensites_exp, p0=p0)
 
 I0_fit, theta0_fit, I_offset_fit = popt
+perr = np.sqrt(np.diag(pcov))
+dI0, dtheta0, dI_offset = perr
 
+residus = intensites_exp - loi_de_malus(angles_deg, *popt)
+ss_res = np.sum(residus ** 2)
+ss_tot = np.sum((intensites_exp - np.mean(intensites_exp)) ** 2)
+r2 = 1 - ss_res / ss_tot
+rmse = np.sqrt(ss_res / len(angles_deg))
+
+print(f"I0       = {I0_fit:.3f} ± {dI0:.3f}")
+print(f"theta0   = {theta0_fit:.3f} ± {dtheta0:.3f} °")
+print(f"I_offset = {I_offset_fit:.3f} ± {dI_offset:.3f}")
+print(f"RMSE     = {rmse:.3f}")
+print(f"R²       = {r2:.5f}")
 
 angles_lisses = np.linspace(np.min(angles_deg) - 5, np.max(angles_deg) + 5, 500)
 intensites_th = loi_de_malus(angles_lisses, I0_fit, theta0_fit, I_offset_fit)
 
 
-# PLOT
 plt.figure(figsize=(9, 5.5), dpi=100)
 
-# Points expérimentaux
 plt.scatter(
     angles_deg,
     intensites_exp,
@@ -40,8 +51,12 @@ plt.scatter(
     label="Mesures expérimentales",
 )
 
-# Courbe théorique ajustée
-label_theorie = f"Loi de Malus théorique\n($I_0={I0_fit:.3f}$, $\\theta_0={theta0_fit:.1f}^\\circ$, $I_{{off}}={I_offset_fit:.3f}$)"
+label_theorie = (
+    f"Loi de Malus théorique\n"
+    f"($I_0={I0_fit:.3f}\\pm{dI0:.3f}$, "
+    f"$\\theta_0={theta0_fit:.1f}\\pm{dtheta0:.1f}^\\circ$,\n"
+    f"$I_{{off}}={I_offset_fit:.3f}\\pm{dI_offset:.3f}$)"
+)
 plt.plot(
     angles_lisses,
     intensites_th,
